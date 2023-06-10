@@ -58,21 +58,21 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
-        #获取最后一个发布版本
-      - name: Get latest release
-        id: last_release
-        uses: actions/github-script@v4
-        with:
-          script: |
-            const response = await github.repos.getLatestRelease({
-              owner: context.repo.owner,
-              repo: context.repo.repo
-            });
-            const targetCommitish = response.data.target_commitish;
-            console.log(`Latest release latest_release_target_commitish: ${targetCommitish}`);
-            console.log(`::set-output name=latest_release_target_commitish::${targetCommitish}`);
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #获取最后一个发布版本
+      #- name: Get latest release
+      #  id: last_release
+      #  uses: actions/github-script@v4
+      #  with:
+      #    script: |
+      #      const response = await github.repos.getLatestRelease({
+      #        owner: context.repo.owner,
+      #        repo: context.repo.repo
+      #      });
+      #      const targetCommitish = response.data.target_commitish;
+      #      console.log(`Latest release latest_release_target_commitish: ${targetCommitish}`);
+      #      console.log(`::set-output name=latest_release_target_commitish::${targetCommitish}`);
+      #  env:
+      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
 
@@ -110,9 +110,9 @@ jobs:
         id: get_commit_message
         if: ${{ steps.check_release.outputs.release_exists == 'false' }}
         run: |
-          # git log -1 --pretty=format:"%s" > commit_message.txt
-          git log --pretty=format:"%H"
-          git log --pretty=format:"%b" --encoding=GBK --reverse ${{ steps.last_release.outputs.latest_release_target_commitish }}..HEAD > commit_message.txt
+          git log --pretty=format:"%b" > commit_message.txt
+          #git log --pretty=format:"%H"
+          #git log --pretty=format:"%b" --encoding=GBK --reverse ${{ steps.last_release.outputs.latest_release_target_commitish }}..HEAD > commit_message.txt
           echo "输出提交信息"
           #echo $(cat commit_message.txt)
           echo "::set-output name=commit_message::$(cat commit_message.txt)"
