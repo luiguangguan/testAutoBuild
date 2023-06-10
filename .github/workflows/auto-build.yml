@@ -59,19 +59,19 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
         #获取最后一个发布版本
-        - name: Get latest release
-          id: last_release
-          uses: actions/github-script@v4
-          with:
-            script: |
-              const response = await github.repos.getLatestRelease({
-                owner: context.repo.owner,
-                repo: context.repo.repo
-              });
-              const targetCommitish = response.data.target_commitish;
-              console.log(`Latest release latest_release_target_commitish: ${targetCommitish}`);
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Get latest release
+        id: last_release
+        uses: actions/github-script@v4
+        with:
+          script: |
+            const response = await github.repos.getLatestRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+            const targetCommitish = response.data.target_commitish;
+            console.log(`Latest release latest_release_target_commitish: ${targetCommitish}`);
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
 
