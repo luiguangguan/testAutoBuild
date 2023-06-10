@@ -2,11 +2,11 @@ name: Build and Publish
 
 on:
   push:
-    branches:
-      - dev
-      - bate
-      - main
-      - master
+    #branches:
+     # - dev
+     # - bate
+     # - main
+     # - master
   workflow_dispatch:
 
 env:
