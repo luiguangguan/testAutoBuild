@@ -104,18 +104,8 @@ jobs:
       #- name: Restore dependencies
       #  run: dotnet restore
       #  working-directory: /packages
-            
-      - name: Restore NuGet
-        if: ${{ steps.check_release.outputs.release_exists == 'false' }}
-        #run: dotnet restore
-        run: nuget restore ${{ env.solution_file }}
-  
-      #构建项目
-      - name: Build project
-        if: ${{ steps.check_release.outputs.release_exists == 'false' }}
-        run: msbuild ${{ env.solution_file }} /p:Configuration=Release
 
-      #获取最后一个提交的注释
+            #获取最后一个提交的注释
       - name: Get last commit message
         id: get_commit_message
         if: ${{ steps.check_release.outputs.release_exists == 'false' }}
@@ -126,6 +116,16 @@ jobs:
           echo "输出提交信息"
           #echo $(cat commit_message.txt)
           echo "::set-output name=commit_message::$(cat commit_message.txt)"
+            
+      - name: Restore NuGet
+        if: ${{ steps.check_release.outputs.release_exists == 'false' }}
+        #run: dotnet restore
+        run: nuget restore ${{ env.solution_file }}
+  
+      #构建项目
+      - name: Build project
+        if: ${{ steps.check_release.outputs.release_exists == 'false' }}
+        run: msbuild ${{ env.solution_file }} /p:Configuration=Release
       
       #创建发布
       - name: Create Release
