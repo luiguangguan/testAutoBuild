@@ -6,7 +6,7 @@ on:
       - dev
       - bate
       - main
-  workflow_di spatch:
+  workflow_dispatch:
 
 env:
   solution_file: testAutoBuild.sln
