@@ -1,4 +1,5 @@
 ## 点歌姬插件的使用
+哈哈哈哈
 
 [![image](https://user-images.githubusercontent.com/20753694/244873202-19ae6cf6-696b-4664-aeb3-d258cc275edd.png)](https://user-images.githubusercontent.com/20753694/244873202-19ae6cf6-696b-4664-aeb3-d258cc275edd.png)
 
