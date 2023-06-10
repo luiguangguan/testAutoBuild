@@ -6,12 +6,16 @@ on:
       - dev
       - bate
       - main
+      - master
   workflow_dispatch:
 
 env:
+  #solution_file: DGJv3.sln
+  #main_project: DGJv3
+
   solution_file: testAutoBuild.sln
   main_project: testAutoBuild
-  
+
 jobs:
   build:
     runs-on: windows-latest
@@ -47,12 +51,28 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo
             });
-            console.log(`当前版本号: ${version}`);
+            //console.log(`当前版本号: ${version}`);
             const releaseExists = releases.data.some(release => release.name === version);
             console.log(`Release exists: ${releaseExists}`);
             console.log(`::set-output name=release_exists::${releaseExists}`);
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+        #获取最后一个发布版本
+        - name: Get latest release
+          id: last_release
+          uses: actions/github-script@v4
+          with:
+            script: |
+              const response = await github.repos.getLatestRelease({
+                owner: context.repo.owner,
+                repo: context.repo.repo
+              });
+              const targetCommitish = response.data.target_commitish;
+              console.log(`Latest release latest_release_target_commitish: ${targetCommitish}`);
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
 
       #设置环版本境变量
@@ -99,7 +119,8 @@ jobs:
         id: get_commit_message
         if: ${{ steps.check_release.outputs.release_exists == 'false' }}
         run: |
-          git log -1 --pretty=format:"%s" > commit_message.txt
+          # git log -1 --pretty=format:"%s" > commit_message.txt
+          git log --pretty=format:"%B" ${{ steps.last_release.outputs.latest_release_target_commitish }}..HEAD 
           echo "::set-output name=commit_message::$(cat commit_message.txt)"
       
       #创建发布
