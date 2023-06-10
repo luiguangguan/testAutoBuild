@@ -123,7 +123,7 @@ jobs:
           # git log -1 --pretty=format:"%s" > commit_message.txt
           git log --pretty=format:"%b" --encoding=GBK ${{ steps.last_release.outputs.latest_release_target_commitish }}..HEAD > commit_message.txt
           echo "输出提交信息"
-          echo $(cat commit_message.txt)
+          #echo $(cat commit_message.txt)
           echo "::set-output name=commit_message::$(cat commit_message.txt)"
       
       #创建发布
