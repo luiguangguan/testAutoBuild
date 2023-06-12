@@ -32,6 +32,8 @@ jobs:
       - name: Get version
         id: get_version
         run: |
+          echo "打印token"
+          echo ${{secrets.GITHUB_TOKEN}}
           $version = Get-Content -Path VERSION -Raw
           $version = $version.Trim()
           Write-Host "Version: $version"
